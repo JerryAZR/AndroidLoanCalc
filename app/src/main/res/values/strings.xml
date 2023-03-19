@@ -12,4 +12,5 @@
     <string name="menu_slideshow">Slideshow</string>
 
     <string name="label_loan">贷款金额</string>
+    <string name="label_currency">元</string>
 </resources>
