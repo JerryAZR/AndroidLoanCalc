@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ui.home.HomeFragment">
 
     <TableLayout
@@ -28,12 +29,7 @@
                 android:layout_marginEnd="8dp"
                 android:textAlignment="center"
                 android:textSize="20sp"
-                android:text="@string/label_loan"
-                android:labelFor="@id/inputLoan"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:text="@string/label_loan_val" />
 
             <EditText
                 android:id="@+id/inputLoan"
@@ -45,7 +41,9 @@
                 android:textAlignment="textEnd"
                 android:textSize="20sp"
                 android:importantForAutofill="no"
-                android:inputType="numberDecimal" />
+                android:inputType="numberDecimal"
+                android:hint="@string/number0"
+                tools:ignore="VisualLintTextFieldSize" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -68,11 +66,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:textAlignment="center"
-                android:textSize="20sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:textSize="20sp" />
             <TextView
                 android:id="@+id/loanCH"
                 android:layout_width="match_parent"
@@ -81,11 +75,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:textAlignment="textEnd"
-                android:textSize="20sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:textSize="20sp" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -96,13 +86,79 @@
                 android:textSize="20sp"
                 android:text="@string/label_currency" />
         </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
     </TableLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:text="@string/label_loan_time" />
+
+        <EditText
+            android:id="@+id/inputYear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="2dp"
+            android:hint="@string/number0"
+            android:importantForAutofill="no"
+            android:inputType="number"
+            android:minWidth="48dp"
+            android:maxLength="2"
+            android:textAlignment="textEnd"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:text="@string/label_year" />
+
+        <EditText
+            android:id="@+id/inputMonth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="2dp"
+            android:hint="@string/number0"
+            android:importantForAutofill="no"
+            android:inputType="number"
+            android:minWidth="48dp"
+            android:maxLength="2"
+            android:textAlignment="textEnd"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="2dp"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:text="@string/label_month" />
+
+        <TextView
+            android:id="@+id/totalMonths"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="0dp"
+            android:textAlignment="center"
+            android:textSize="20sp" />
+    </LinearLayout>
+</LinearLayout>

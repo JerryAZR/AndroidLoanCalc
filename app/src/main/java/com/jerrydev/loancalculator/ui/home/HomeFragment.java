@@ -10,8 +10,10 @@ import android.text.TextWatcher;
 import android.text.Editable;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
 
+import com.jerrydev.loancalculator.R;
 import com.jerrydev.loancalculator.databinding.FragmentHomeBinding;
 import com.jerrydev.loancalculator.Utilities;
 
@@ -23,9 +25,7 @@ public class HomeFragment extends Fragment {
 
     private final TextWatcher loanValueWatcher = new TextWatcher() {
         @Override
-        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-        }
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -39,9 +39,35 @@ public class HomeFragment extends Fragment {
         }
 
         @Override
-        public void afterTextChanged(Editable editable) {
+        public void afterTextChanged(Editable editable) {}
+    };
 
+    private final TextWatcher loanTimeWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            int numYears, numMonths;
+            int totalMonths;
+            String hint;
+            try {
+                numYears = Integer.parseInt(binding.inputYear.getText().toString());
+            } catch (NumberFormatException e) {
+                numYears = 0;
+            }
+            try {
+                numMonths = Integer.parseInt(binding.inputMonth.getText().toString());
+            } catch (NumberFormatException e) {
+                numMonths = 0;
+            }
+            totalMonths = Utilities.calcTotalMonths(numYears, numMonths);
+            hint = getString(R.string.tmpl_total_months);
+            binding.totalMonths.setText(String.format(hint, totalMonths));
         }
+
+        @Override
+        public void afterTextChanged(Editable editable) {}
     };
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -52,8 +78,17 @@ public class HomeFragment extends Fragment {
 
         final TextView loanCH = binding.loanCH;
         final EditText loanArabic = binding.inputLoan;
+        final EditText loanYear = binding.inputYear;
+        final EditText loanMonth = binding.inputMonth;
+
         loanArabic.addTextChangedListener(loanValueWatcher);
-        loanCH.setText("0");
+        loanYear.addTextChangedListener(loanTimeWatcher);
+        loanMonth.addTextChangedListener(loanTimeWatcher);
+
+        // Set initial inputs
+//        binding.inputLoan.setText("0");
+//        binding.inputYear.setText("0");
+//        binding.inputMonth.setText("0");
         return root;
     }
 

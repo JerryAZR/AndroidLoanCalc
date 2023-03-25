@@ -11,6 +11,16 @@
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
 
-    <string name="label_loan">贷款金额</string>
+    <string name="number0">0</string>
+
+    <string name="sign_percent">%</string>
+
+    <string name="label_loan_val">贷款金额</string>
+    <string name="label_loan_time">贷款时长</string>
     <string name="label_currency">元</string>
+    <string name="label_year">年</string>
+    <string name="label_month">月</string>
+    <string name="label_interest">年利率</string>
+
+    <string name="tmpl_total_months">（共%d个月）</string>
 </resources>

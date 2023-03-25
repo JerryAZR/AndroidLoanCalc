@@ -8,7 +8,8 @@ public class Utilities {
     private static final String[] chnUnitChar = {"", "十","百","千"};
 
     /**
-     * num2Chinese(String) Converts input number to Chinese representation
+     * num2Chinese(String)
+     * Converts input number to Chinese representation
      * @param num Number in decimal or scientific representation
      * @return Rounded value in Chinese
      * @throws NumberFormatException if the input string is not a valid number
@@ -58,5 +59,16 @@ public class Utilities {
         }
         if (trillion) out += chnUnitSection[2];
         return out;
+    }
+
+    /**
+     * calcTotalMonths(int, int)
+     * Calculate the equivalent number of months from the given number of years and months.
+     * @param years Total number of years
+     * @param months Number of months remaining after subtracting the years
+     * @return Total number of months
+     */
+    public static int calcTotalMonths(int years, int months) {
+        return years * 12 + months;
     }
 }
