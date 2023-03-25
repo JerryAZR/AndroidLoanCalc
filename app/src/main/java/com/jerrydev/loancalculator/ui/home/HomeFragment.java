@@ -10,7 +10,6 @@ import android.text.TextWatcher;
 import android.text.Editable;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
 
 import com.jerrydev.loancalculator.R;
