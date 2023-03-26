@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.text.TextWatcher;
@@ -11,16 +12,21 @@ import android.text.Editable;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.jerrydev.loancalculator.R;
 import com.jerrydev.loancalculator.databinding.FragmentHomeBinding;
 import com.jerrydev.loancalculator.Utilities;
+import com.jerrydev.loancalculator.loan.LoanPlan;
+import com.jerrydev.loancalculator.loan.LoanPlanEMI;
+import com.jerrydev.loancalculator.ui.slideshow.SlideshowViewModel;
 
 import java.util.Locale;
 
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
+    private LoanPlan planEMI;
 
     private final TextWatcher loanValueWatcher = new TextWatcher() {
         @Override
@@ -75,19 +81,49 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView loanCH = binding.loanCH;
-        final EditText loanArabic = binding.inputLoan;
+        final EditText loanDecimal = binding.inputLoan;
         final EditText loanYear = binding.inputYear;
         final EditText loanMonth = binding.inputMonth;
+        final EditText loanAnnualRate = binding.inputAnnualRate;
+        final Button confirmBtn = binding.confirmInputBtn;
+        final TextView EMIFirstPay = binding.emiMonth0Payment;
+        final TextView EMIInterest = binding.emiTotalInterest;
 
-        loanArabic.addTextChangedListener(loanValueWatcher);
+        loanDecimal.addTextChangedListener(loanValueWatcher);
         loanYear.addTextChangedListener(loanTimeWatcher);
         loanMonth.addTextChangedListener(loanTimeWatcher);
 
-        // Set initial inputs
-//        binding.inputLoan.setText("0");
-//        binding.inputYear.setText("0");
-//        binding.inputMonth.setText("0");
+        confirmBtn.setOnClickListener(view -> {
+            double base, annualRate;
+            int nMonths, nYears, totalMonths;
+            try {
+                base = Double.parseDouble(loanDecimal.getText().toString());
+            } catch (NumberFormatException e) {
+                base = 0;
+            }
+            try {
+                annualRate = Double.parseDouble(loanAnnualRate.getText().toString());
+            } catch (NumberFormatException e) {
+                annualRate = 0;
+            }
+            try {
+                nMonths = Integer.parseInt(loanMonth.getText().toString());
+            } catch (NumberFormatException e) {
+                nMonths = 0;
+            }
+            try {
+                nYears = Integer.parseInt(loanYear.getText().toString());
+            } catch (NumberFormatException e) {
+                nYears = 0;
+            }
+            totalMonths = Utilities.calcTotalMonths(nYears, nMonths);
+            planEMI.updatePlan(base, totalMonths, annualRate);
+        });
+
+        planEMI = new ViewModelProvider(this).get(LoanPlanEMI.class);
+        planEMI.getFirstPayStr().observe(getViewLifecycleOwner(), EMIFirstPay::setText);
+        planEMI.getInterestStr().observe(getViewLifecycleOwner(), EMIInterest::setText);
+
         return root;
     }
 

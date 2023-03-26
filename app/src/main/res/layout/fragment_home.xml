@@ -107,10 +107,11 @@
             android:hint="@string/number0"
             android:importantForAutofill="no"
             android:inputType="number"
-            android:minWidth="32dp"
             android:maxLength="2"
+            android:minWidth="32dp"
             android:textAlignment="textEnd"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            tools:ignore="TouchTargetSizeCheck" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -132,10 +133,11 @@
             android:hint="@string/number0"
             android:importantForAutofill="no"
             android:inputType="number"
-            android:minWidth="32dp"
             android:maxLength="2"
+            android:minWidth="32dp"
             android:textAlignment="textEnd"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            tools:ignore="TouchTargetSizeCheck" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -171,7 +173,7 @@
             android:textSize="20sp"
             android:text="@string/label_annual_rate" />
         <EditText
-            android:id="@+id/inputInterest"
+            android:id="@+id/inputAnnualRate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -181,12 +183,13 @@
             android:importantForAutofill="no"
             android:inputType="numberDecimal"
             android:minWidth="48dp"
+            android:maxLength="16"
             android:textAlignment="textEnd"
             android:textSize="20sp" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="2dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:textAlignment="center"
@@ -212,7 +215,8 @@
             android:drawableTint="@color/design_default_color_on_primary"
             android:text="@string/btn_clear"
             android:textAlignment="center"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            tools:ignore="RtlHardcoded" />
         <Button
             android:id="@+id/confirmInputBtn"
             android:layout_width="wrap_content"
@@ -224,7 +228,8 @@
             android:drawableTint="@color/design_default_color_on_primary"
             android:text="@string/btn_calculate"
             android:textAlignment="center"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            tools:ignore="RtlHardcoded" />
     </LinearLayout>
 
     <TableLayout
