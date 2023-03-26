@@ -20,7 +20,15 @@
     <string name="label_currency">元</string>
     <string name="label_year">年</string>
     <string name="label_month">月</string>
-    <string name="label_interest">年利率</string>
+    <string name="label_annual_rate">年利率</string>
+    <string name="btn_clear">清除</string>
+    <string name="btn_calculate">计算</string>
+    <string name="label_repay_method">还款方式</string>
+    <string name="label_1st_mon_payment">首月应还</string>
+    <string name="label_total_interest">总利息</string>
+    <string name="label_emi">等额本息</string>
+    <string name="label_epi">等额本金</string>
+    <string name="label_interest_first">先息后本</string>
 
     <string name="tmpl_total_months">（共%d个月）</string>
 </resources>
