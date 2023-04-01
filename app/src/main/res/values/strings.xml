@@ -29,6 +29,7 @@
     <string name="label_emi">等额本息</string>
     <string name="label_epi">等额本金</string>
     <string name="label_interest_first">先息后本</string>
+    <string name="label_plan_overview">方案一览</string>
 
     <string name="tmpl_total_months">（共%d个月）</string>
 </resources>

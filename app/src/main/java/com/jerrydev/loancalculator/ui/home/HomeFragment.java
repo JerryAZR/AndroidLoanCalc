@@ -19,14 +19,15 @@ import com.jerrydev.loancalculator.databinding.FragmentHomeBinding;
 import com.jerrydev.loancalculator.Utilities;
 import com.jerrydev.loancalculator.loan.LoanPlan;
 import com.jerrydev.loancalculator.loan.LoanPlanEMI;
-import com.jerrydev.loancalculator.ui.slideshow.SlideshowViewModel;
-
-import java.util.Locale;
+import com.jerrydev.loancalculator.loan.LoanPlanEPI;
+import com.jerrydev.loancalculator.loan.LoanPlanIFI;
 
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
     private LoanPlan planEMI;
+    private LoanPlan planEPI;
+    private LoanPlan planIFI;
 
     private final TextWatcher loanValueWatcher = new TextWatcher() {
         @Override
@@ -88,6 +89,10 @@ public class HomeFragment extends Fragment {
         final Button confirmBtn = binding.confirmInputBtn;
         final TextView EMIFirstPay = binding.emiMonth0Payment;
         final TextView EMIInterest = binding.emiTotalInterest;
+        final TextView EPIFirstPay = binding.epiMonth0Payment;
+        final TextView EPIInterest = binding.epiTotalInterest;
+        final TextView IFIFirstPay = binding.intFirstMonth0Payment;
+        final TextView IFIInterest = binding.intFirstTotalInterest;
 
         loanDecimal.addTextChangedListener(loanValueWatcher);
         loanYear.addTextChangedListener(loanTimeWatcher);
@@ -118,11 +123,21 @@ public class HomeFragment extends Fragment {
             }
             totalMonths = Utilities.calcTotalMonths(nYears, nMonths);
             planEMI.updatePlan(base, totalMonths, annualRate);
+            planEPI.updatePlan(base, totalMonths, annualRate);
+            planIFI.updatePlan(base, totalMonths, annualRate);
         });
 
         planEMI = new ViewModelProvider(this).get(LoanPlanEMI.class);
         planEMI.getFirstPayStr().observe(getViewLifecycleOwner(), EMIFirstPay::setText);
         planEMI.getInterestStr().observe(getViewLifecycleOwner(), EMIInterest::setText);
+
+        planEPI = new ViewModelProvider(this).get(LoanPlanEPI.class);
+        planEPI.getFirstPayStr().observe(getViewLifecycleOwner(), EPIFirstPay::setText);
+        planEPI.getInterestStr().observe(getViewLifecycleOwner(), EPIInterest::setText);
+
+        planIFI = new ViewModelProvider(this).get(LoanPlanIFI.class);
+        planIFI.getFirstPayStr().observe(getViewLifecycleOwner(), IFIFirstPay::setText);
+        planIFI.getInterestStr().observe(getViewLifecycleOwner(), IFIInterest::setText);
 
         return root;
     }
