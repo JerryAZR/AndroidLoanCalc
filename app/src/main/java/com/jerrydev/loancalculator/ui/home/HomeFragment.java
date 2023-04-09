@@ -1,17 +1,22 @@
 package com.jerrydev.loancalculator.ui.home;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.text.TextWatcher;
 import android.text.Editable;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.jerrydev.loancalculator.R;
@@ -21,6 +26,9 @@ import com.jerrydev.loancalculator.loan.LoanPlan;
 import com.jerrydev.loancalculator.loan.LoanPlanEMI;
 import com.jerrydev.loancalculator.loan.LoanPlanEPI;
 import com.jerrydev.loancalculator.loan.LoanPlanIFI;
+
+import java.util.Locale;
+import java.util.Objects;
 
 public class HomeFragment extends Fragment {
 
@@ -76,6 +84,19 @@ public class HomeFragment extends Fragment {
         public void afterTextChanged(Editable editable) {}
     };
 
+    private final AdapterView.OnItemSelectedListener spinnerListener = new AdapterView.OnItemSelectedListener() {
+        @Override
+        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+            LoanPlan[] allPlans = {planEMI, planEPI, planIFI};
+            showPlan(allPlans[i]);
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> adapterView) {
+
+        }
+    };
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -93,6 +114,7 @@ public class HomeFragment extends Fragment {
         final TextView EPIInterest = binding.epiTotalInterest;
         final TextView IFIFirstPay = binding.intFirstMonth0Payment;
         final TextView IFIInterest = binding.intFirstTotalInterest;
+        final Spinner planSpinner = binding.planSpinner;
 
         loanDecimal.addTextChangedListener(loanValueWatcher);
         loanYear.addTextChangedListener(loanTimeWatcher);
@@ -125,6 +147,10 @@ public class HomeFragment extends Fragment {
             planEMI.updatePlan(base, totalMonths, annualRate);
             planEPI.updatePlan(base, totalMonths, annualRate);
             planIFI.updatePlan(base, totalMonths, annualRate);
+
+            LoanPlan[] allPlans = {planEMI, planEPI, planIFI};
+
+            showPlan(allPlans[planSpinner.getSelectedItemPosition()]);
         });
 
         planEMI = new ViewModelProvider(this).get(LoanPlanEMI.class);
@@ -139,7 +165,33 @@ public class HomeFragment extends Fragment {
         planIFI.getFirstPayStr().observe(getViewLifecycleOwner(), IFIFirstPay::setText);
         planIFI.getInterestStr().observe(getViewLifecycleOwner(), IFIInterest::setText);
 
+        planSpinner.setOnItemSelectedListener(spinnerListener);
+
         return root;
+    }
+
+    private void showPlan(LoanPlan plan) {
+        Double[] payments = plan.getFullPlan();
+        Double[] remaining = plan.getRemaining();
+        binding.fullPlanTable.removeAllViews();
+        try {
+            LayoutInflater inflater = Objects.requireNonNull(getActivity()).getLayoutInflater();
+            for (int i = 0; i < payments.length; i++) {
+                @SuppressLint("InflateParams") View rowView = inflater.inflate(
+                        R.layout.pay_table_row, null);
+                ((TextView) rowView.findViewById(R.id.monthIdx)).setText(
+                        String.format(Locale.CHINA, "%d", i+1));
+                ((TextView) rowView.findViewById(R.id.payment)).setText(
+                        String.format(Locale.CHINA, "%.2f", payments[i]));
+                ((TextView) rowView.findViewById(R.id.remaining)).setText(
+                        String.format(Locale.CHINA, "%.2f", remaining[i]));
+                if ((i & 1) == 1) rowView.setBackgroundResource(
+                        com.google.android.material.R.color.material_dynamic_neutral90);
+                binding.fullPlanTable.addView(rowView);
+            }
+        } catch (NullPointerException ignored) {
+            // TODO: proper error handling
+        }
     }
 
     @Override

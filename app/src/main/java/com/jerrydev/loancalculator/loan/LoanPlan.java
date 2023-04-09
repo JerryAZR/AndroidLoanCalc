@@ -15,6 +15,7 @@ public abstract class LoanPlan extends ViewModel {
     int nMonths;
     double rate; // This is the monthly rate
     Double[] paymentPlan;
+    Double[] remainingPrinciple;
 
     // String components
     private final MutableLiveData<String> totalInterest;
@@ -52,11 +53,11 @@ public abstract class LoanPlan extends ViewModel {
         generateFullPlan();
 
         // Update strings
-        totalInterest.setValue(String.format(Locale.CHINA, "%.2f", getTotalInterest()));
+        totalInterest.postValue(String.format(Locale.CHINA, "%.2f", getTotalInterest()));
         try {
-            firstPay.setValue(String.format(Locale.CHINA, "%.2f", paymentPlan[0]));
+            firstPay.postValue(String.format(Locale.CHINA, "%.2f", paymentPlan[0]));
         } catch (ArrayIndexOutOfBoundsException e) {
-            firstPay.setValue("--");
+            firstPay.postValue("--");
         }
     }
 
@@ -69,8 +70,13 @@ public abstract class LoanPlan extends ViewModel {
 
     private void generateFullPlan() {
         paymentPlan = new Double[nMonths];
+        remainingPrinciple = new Double[nMonths];
+        double remaining = base;
         for (int i = 0; i < nMonths; i++) {
             paymentPlan[i] = calcMonthPayment(i);
+
+            remaining -= (paymentPlan[i] - remaining * rate);
+            remainingPrinciple[i] = remaining;
         }
     }
 
@@ -103,15 +109,17 @@ public abstract class LoanPlan extends ViewModel {
      *
      * @return Payment of the 1st month as a string
      */
-    public LiveData<String> getFirstPayStr() {
-        return firstPay;
-    }
+    public LiveData<String> getFirstPayStr() {return firstPay;}
 
     /**
      *
      * @return Total interest as a string
      */
-    public LiveData<String> getInterestStr() {
-        return totalInterest;
-    }
+    public LiveData<String> getInterestStr() {return totalInterest;}
+
+    /**
+     *
+     * @return Remaining principle after each month
+     */
+    public Double[] getRemaining() {return remainingPrinciple;}
 }

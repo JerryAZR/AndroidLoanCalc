@@ -30,6 +30,16 @@
     <string name="label_epi">等额本金</string>
     <string name="label_interest_first">先息后本</string>
     <string name="label_plan_overview">方案一览</string>
+    <string name="label_plan_details">详细还款计划</string>
+    <string name="label_month_idx">次数</string>
+    <string name="label_payment">当月应还</string>
+    <string name="label_remaining">剩余本金</string>
+
+    <string-array name="plan_spinner_items">
+        <item>等额本息</item>
+        <item>等额本金</item>
+        <item>先息后本</item>
+    </string-array>
 
     <string name="tmpl_total_months">（共%d个月）</string>
 </resources>
